@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>25 de Mayo - La Libertad</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Poppins', sans-serif;
+    min-height:100vh;
+    background:linear-gradient(135deg,#8ed6ff,#ffffff,#8ed6ff);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:hidden;
+    position:relative;
+}
+
+.circle{
+    position:absolute;
+    border-radius:50%;
+    background:rgba(255,255,255,0.3);
+    animation:float 8s infinite ease-in-out;
+}
+
+.circle:nth-child(1){
+    width:200px;
+    height:200px;
+    top:-50px;
+    left:-50px;
+}
+
+.circle:nth-child(2){
+    width:300px;
+    height:300px;
+    bottom:-120px;
+    right:-100px;
+    animation-delay:2s;
+}
+
+@keyframes float{
+    0%,100%{
+        transform:translateY(0px);
+    }
+    50%{
+        transform:translateY(-20px);
+    }
+}
+
+.container{
+    width:90%;
+    max-width:650px;
+    background:rgba(255,255,255,0.88);
+    backdrop-filter:blur(10px);
+    border-radius:25px;
+    padding:40px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.15);
+    text-align:center;
+    position:relative;
+    z-index:10;
+}
+
+.flag{
+    font-size:50px;
+    margin-bottom:15px;
+}
+
+h1{
+    color:#2b5d7d;
+    font-size:2rem;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    color:#4f6f84;
+    margin-bottom:30px;
+    font-size:1rem;
+}
+
+.question{
+    font-size:1.4rem;
+    font-weight:600;
+    color:#1f3f55;
+    margin-bottom:25px;
+}
+
+textarea{
+    width:100%;
+    min-height:150px;
+    border:none;
+    outline:none;
+    resize:none;
+    border-radius:18px;
+    padding:18px;
+    font-size:1rem;
+    background:#f4fbff;
+    box-shadow:inset 0 0 8px rgba(0,0,0,0.08);
+    transition:0.3s;
+}
+
+textarea:focus{
+    transform:scale(1.01);
+}
+
+button{
+    margin-top:22px;
+    background:#5bbcff;
+    color:white;
+    border:none;
+    padding:15px 30px;
+    border-radius:14px;
+    font-size:1rem;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+    box-shadow:0 8px 18px rgba(91,188,255,0.4);
+}
+
+button:hover{
+    transform:translateY(-3px);
+    background:#3caef7;
+}
+
+.result{
+    margin-top:25px;
+    font-size:1.1rem;
+    color:#204b68;
+    display:none;
+    animation:fade 0.7s ease;
+}
+
+@keyframes fade{
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.footer{
+    margin-top:30px;
+    color:#5c7a8f;
+    font-size:0.9rem;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="circle"></div>
+<div class="circle"></div>
+
+<div class="container">
+
+<div class="flag">🇦🇷</div>
+
+<h1>25 de Mayo</h1>
+
+<p class="subtitle">
+Reflexionemos sobre la libertad en Argentina
+</p>
+
+<div class="question">
+HOY: ¿Qué es la libertad para vos en Argentina?
+</div>
+
+<textarea id="respuesta" placeholder="Escribe tu respuesta aquí..."></textarea>
+
+<button onclick="mostrarMensaje()">
+Enviar respuesta
+</button>
+
+<div class="result" id="resultado"></div>
+
+<div class="footer">
+25 de Mayo • Revolución de Mayo de 1810
+</div>
+
+</div>
+
+<script>
+
+async function mostrarMensaje(){
+
+    const respuesta = document.getElementById("respuesta").value;
+    const resultado = document.getElementById("resultado");
+
+    if(respuesta.trim() === ""){
+        resultado.style.display = "block";
+        resultado.innerHTML = "✍️ Escribe una respuesta antes de continuar.";
+        return;
+    }
+
+    const data = {
+        respuesta: respuesta
+    };
+
+    await fetch("https://script.google.com/macros/s/AKfycbwT0m1ydSWycE8qaXguNnUTdeHmKjFy7OKMJICuI9_wWHcZVQZ4haVeEkdodbndhPrZ/exec", {
+        method: "POST",
+        body: JSON.stringify(data)
+    });
+
+    resultado.style.display = "block";
+
+    resultado.innerHTML = `
+    🌞 Gracias por compartir tu reflexión.<br><br>
+    Tu respuesta fue enviada correctamente.
+    `;
+
+    document.getElementById("respuesta").value = "";
+}
+
+</script>
+
+</body>
+</html>
